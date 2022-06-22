@@ -22,12 +22,6 @@ public class LinearInterpolator extends Interpolator
     @Override
     public double noise(double x, double y) {
         int[] box = getScaleBoundsC2D2(x, y);
-
-        if(Math.random() > 0.99)
-        {
-            System.out.println("For " + x + " " + y + " box is " + Arrays.toString(box));
-        }
-
         return blerp(
                 input.noise(box[X1_D2], box[Y1_D2]),
                 input.noise(box[X2_D2], box[Y1_D2]),

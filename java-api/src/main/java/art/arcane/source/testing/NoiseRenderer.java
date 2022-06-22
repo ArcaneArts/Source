@@ -1,27 +1,77 @@
 package art.arcane.source.testing;
 
 import art.arcane.source.api.accessor.ValueAccessor2D;
+import art.arcane.source.api.accessor.ValueAccessor3D;
+import art.arcane.source.api.interpolator.HermiteInterpolator;
+import art.arcane.source.api.interpolator.Interpolator;
+import art.arcane.source.api.interpolator.LinearInterpolator;
+import art.arcane.source.api.interpolator.StarcastInterpolator;
+import art.arcane.source.api.noise.CompositeGenerator;
 import art.arcane.source.api.noise.Generator;
 import art.arcane.source.api.noise.provider.*;
 
+import javax.sound.sampled.Line;
+import javax.sql.rowset.CachedRowSet;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
 public class NoiseRenderer {
     public static void main(String[] a)
     {
-        Generator g = new Generator(new SimplexNoiseProvider(1337));
-        g.scale = 0.001;
+        Generator g = new Generator( new SimplexProvider(1337));
+        g.scale = 0.1 / 4;
+        Generator w = new Generator(new PerlinHermiteNoiseProvider(23454));
+        w.scale = 0.01 / 4;
+        w.maxOutput = 9;
+        w.minOutput = -9;
+        g.warp = w;
+        Generator ww = new Generator(new WhiteProvider(234154));
+        ww.scale = 0.01 / 8;
+        ww.maxOutput = 0.01;
+        ww.minOutput = -0.01;
+        w.warp = ww;
+        ValueAccessor3D gg = new StarcastInterpolator(g, 64, 12);
+        CompositeGenerator c = new CompositeGenerator(CompositeGenerator.CompositeMode.ADD);
+        Generator gxc = new Generator(new SimplexProvider(234985));
+        gxc.scale = 0.0001;
+        c.add(gg);
+        c.add(gxc);
+        Generator gx = new Generator(c);
+        gx.maxInput = 2;
+        gx.minInput = 0;
 
-        Generator warp = new Generator(new SimplexNoiseProvider(3955));
-        warp.scale = 0.07;
-        warp.minOutput = -32;
-        warp.maxOutput = 32;
+        showNoise(gx);
 
-        g.warp = warp;
-        showNoise(g);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     public static JFrame frame;
@@ -81,6 +131,7 @@ public class NoiseRenderer {
         {
             if(image == null || lw != getWidth() || lh != getHeight())
             {
+                long ms = System.currentTimeMillis();
                 lw = getWidth();
                 lh = getHeight();
                 image = new BufferedImage(lw, lh, BufferedImage.TYPE_INT_RGB);
@@ -93,6 +144,8 @@ public class NoiseRenderer {
                         image.setRGB(i, j, Color.getHSBColor((float)value, 1f, 1f).getRGB());
                     }
                 }
+                long dur = System.currentTimeMillis() - ms;
+                System.out.println("Render took " + dur + " ms");
             }
 
             return image;

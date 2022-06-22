@@ -22,35 +22,58 @@ public class CompositeGenerator implements ValueAccessor3D {
 
     @Override
     public double noise(double x) {
-        double value = 0;
+        double value = mode == CompositeMode.MAX ? -10 : mode == CompositeMode.MIN ? 10 : 0;
 
         for(ValueAccessor3D i : generators)
         {
             switch(mode)
             {
-                case ADD, AVG -> value += i.noise(x);
+                case ADD -> value += i.noise(x);
                 case MAX -> value = Math.max(i.noise(x), value);
                 case MIN -> value = Math.min(i.noise(x), value);
             }
         }
 
-        return mode == CompositeMode.AVG ? value / (generators.isEmpty() ? 1 : generators.size()) : value;
+        return value;
     }
 
     @Override
     public double noise(double x, double y) {
-        return ValueAccessor3D.super.noise(x, y);
+        double value = mode == CompositeMode.MAX ? -10 : mode == CompositeMode.MIN ? 10 : 0;
+
+        for(ValueAccessor3D i : generators)
+        {
+            switch(mode)
+            {
+                case ADD -> value += i.noise(x, y);
+                case MAX -> value = Math.max(i.noise(x, y), value);
+                case MIN -> value = Math.min(i.noise(x, y), value);
+            }
+        }
+
+        return value;
     }
 
     @Override
     public double noise(double x, double y, double z) {
-        return 0;
+        double value = mode == CompositeMode.MAX ? -10 : mode == CompositeMode.MIN ? 10 : 0;
+
+        for(ValueAccessor3D i : generators)
+        {
+            switch(mode)
+            {
+                case ADD -> value += i.noise(x, y, z);
+                case MAX -> value = Math.max(i.noise(x, y, z), value);
+                case MIN -> value = Math.min(i.noise(x, y, z), value);
+            }
+        }
+
+        return value;
     }
 
     public enum CompositeMode
     {
         ADD,
-        AVG,
         MAX,
         MIN
     }

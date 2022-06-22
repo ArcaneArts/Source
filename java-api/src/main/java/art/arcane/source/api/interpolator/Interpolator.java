@@ -154,7 +154,7 @@ public abstract class Interpolator implements NoiseProvider {
                 (int) Math.round((fx + 2) * scale)};
     }
 
-    public double rangeScale(double amin, double amax, double bmin, double bmax, double b) {
+    public static double rangeScale(double amin, double amax, double bmin, double bmax, double b) {
         return amin + ((amax - amin) * ((b - bmin) / (bmax - bmin)));
     }
 

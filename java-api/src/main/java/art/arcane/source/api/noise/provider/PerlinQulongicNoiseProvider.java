@@ -2,7 +2,7 @@ package art.arcane.source.api.noise.provider;
 
 import art.arcane.source.api.interpolator.Interpolator;
 
-public class PerlinQulongicNoiseProvider extends SeededNoiseProvider {
+public class PerlinQulongicNoiseProvider extends SeededProvider {
     public PerlinQulongicNoiseProvider(long seed) {
         super(seed);
     }
