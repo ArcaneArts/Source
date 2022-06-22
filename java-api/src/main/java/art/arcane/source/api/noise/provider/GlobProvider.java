@@ -1,15 +1,11 @@
 package art.arcane.source.api.noise.provider;
 
-import art.arcane.source.api.NoisePlane;
 import art.arcane.source.api.util.Double2;
 import art.arcane.source.api.util.Double3;
 
-public class Cellularizer extends SeededProvider {
-    private final NoisePlane generator;
-
-    public Cellularizer(NoisePlane generator, long seed) {
+public class GlobProvider extends SeededProvider {
+    public GlobProvider(long seed) {
         super(seed);
-        this.generator = generator;
     }
 
     @Override
@@ -21,25 +17,20 @@ public class Cellularizer extends SeededProvider {
     public double noise(double x, double y) {
         long xr = round(x);
         long yr = round(y);
-
         double distance = 999999;
-        long xc = 0, yc = 0, zc = 0;
+        double distance2 = 999999;
         for(long xi = xr - 1; xi <= xr + 1; xi++) {
             for(long yi = yr - 1; yi <= yr + 1; yi++) {
                 Double2 vec = CELL_2D[(int) hash2D(seed, xi, yi) & 255];
                 double vecX = xi - x + vec.x;
                 double vecY = yi - y + vec.y;
                 double newDistance = (Math.abs(vecX) + Math.abs(vecY)) + (vecX * vecX + vecY * vecY);
-
-                if(newDistance < distance) {
-                    distance = newDistance;
-                    xc = xi;
-                    yc = yi;
-                }
+                distance2 = Math.max(Math.min(distance2, newDistance), distance);
+                distance = Math.min(distance, newDistance);
             }
         }
 
-        return generator.noise(xc, yc);
+        return distance / distance2 - 1;
     }
 
     @Override
@@ -48,7 +39,7 @@ public class Cellularizer extends SeededProvider {
         long yr = round(y);
         long zr = round(z);
         double distance = 999999;
-        long xc = 0, yc = 0, zc = 0;
+        double distance2 = 999999;
         for(long xi = xr - 1; xi <= xr + 1; xi++) {
             for(long yi = yr - 1; yi <= yr + 1; yi++) {
                 for(long zi = zr - 1; zi <= zr + 1; zi++) {
@@ -57,17 +48,12 @@ public class Cellularizer extends SeededProvider {
                     double vecY = yi - y + vec.y;
                     double vecZ = zi - z + vec.z;
                     double newDistance = (Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ)) + (vecX * vecX + vecY * vecY + vecZ * vecZ);
-
-                    if(newDistance < distance) {
-                        distance = newDistance;
-                        xc = xi;
-                        yc = yi;
-                        zc = zi;
-                    }
+                    distance2 = Math.max(Math.min(distance2, newDistance), distance);
+                    distance = Math.min(distance, newDistance);
                 }
             }
         }
 
-        return generator.noise(xc, yc, zc);
+        return distance / distance2 - 1;
     }
 }

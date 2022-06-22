@@ -1,7 +1,7 @@
-package art.arcane.source.api.accessor;
+package art.arcane.source.api;
 
 @FunctionalInterface
-public interface ValueAccessor3D extends ValueAccessor2D {
+public interface NoisePlane {
     default double noise(double x)
     {
         return noise(x, 0, 0);

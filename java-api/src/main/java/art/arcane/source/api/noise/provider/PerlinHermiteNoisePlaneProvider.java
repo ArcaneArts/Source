@@ -2,8 +2,8 @@ package art.arcane.source.api.noise.provider;
 
 import art.arcane.source.api.interpolator.Interpolator;
 
-public class PerlinHermiteNoiseProvider extends SeededProvider {
-    public PerlinHermiteNoiseProvider(long seed) {
+public class PerlinHermiteNoisePlaneProvider extends SeededProvider {
+    public PerlinHermiteNoisePlaneProvider(long seed) {
         super(seed);
     }
 

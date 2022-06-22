@@ -1,12 +1,12 @@
 package art.arcane.source.api.noise;
 
-import art.arcane.source.api.accessor.ValueAccessor3D;
+import art.arcane.source.api.NoisePlane;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompositeGenerator implements ValueAccessor3D {
-    private final List<ValueAccessor3D> generators;
+public class CompositeGenerator implements NoisePlane {
+    private final List<NoisePlane> generators;
     private final CompositeMode mode;
 
     public CompositeGenerator(CompositeMode mode)
@@ -15,7 +15,7 @@ public class CompositeGenerator implements ValueAccessor3D {
         this.mode = mode;
     }
 
-    public void add(ValueAccessor3D generator)
+    public void add(NoisePlane generator)
     {
         generators.add(generator);
     }
@@ -24,7 +24,7 @@ public class CompositeGenerator implements ValueAccessor3D {
     public double noise(double x) {
         double value = mode == CompositeMode.MAX ? -10 : mode == CompositeMode.MIN ? 10 : 0;
 
-        for(ValueAccessor3D i : generators)
+        for(NoisePlane i : generators)
         {
             switch(mode)
             {
@@ -41,7 +41,7 @@ public class CompositeGenerator implements ValueAccessor3D {
     public double noise(double x, double y) {
         double value = mode == CompositeMode.MAX ? -10 : mode == CompositeMode.MIN ? 10 : 0;
 
-        for(ValueAccessor3D i : generators)
+        for(NoisePlane i : generators)
         {
             switch(mode)
             {
@@ -58,7 +58,7 @@ public class CompositeGenerator implements ValueAccessor3D {
     public double noise(double x, double y, double z) {
         double value = mode == CompositeMode.MAX ? -10 : mode == CompositeMode.MIN ? 10 : 0;
 
-        for(ValueAccessor3D i : generators)
+        for(NoisePlane i : generators)
         {
             switch(mode)
             {

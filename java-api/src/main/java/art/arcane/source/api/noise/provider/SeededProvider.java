@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public abstract class SeededProvider implements NoiseProvider {
+public abstract class SeededProvider implements NoisePlaneProvider {
     protected final long seed;
 }

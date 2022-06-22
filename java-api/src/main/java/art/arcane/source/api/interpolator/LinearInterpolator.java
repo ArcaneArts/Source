@@ -1,12 +1,10 @@
 package art.arcane.source.api.interpolator;
 
-import art.arcane.source.api.accessor.ValueAccessor3D;
-
-import java.util.Arrays;
+import art.arcane.source.api.NoisePlane;
 
 public class LinearInterpolator extends Interpolator
 {
-    public LinearInterpolator(ValueAccessor3D input, double scale) {
+    public LinearInterpolator(NoisePlane input, double scale) {
         super(input, scale);
     }
 

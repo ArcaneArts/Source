@@ -1,50 +1,21 @@
 package art.arcane.source.testing;
 
-import art.arcane.source.api.accessor.ValueAccessor2D;
-import art.arcane.source.api.accessor.ValueAccessor3D;
-import art.arcane.source.api.interpolator.HermiteInterpolator;
-import art.arcane.source.api.interpolator.Interpolator;
-import art.arcane.source.api.interpolator.LinearInterpolator;
-import art.arcane.source.api.interpolator.StarcastInterpolator;
-import art.arcane.source.api.noise.CompositeGenerator;
+import art.arcane.source.api.accessor.ValuePlane2D;
 import art.arcane.source.api.noise.Generator;
 import art.arcane.source.api.noise.provider.*;
 
-import javax.sound.sampled.Line;
-import javax.sql.rowset.CachedRowSet;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
 public class NoiseRenderer {
     public static void main(String[] a)
     {
-        Generator g = new Generator( new SimplexProvider(1337));
-        g.scale = 0.1 / 4;
-        Generator w = new Generator(new PerlinHermiteNoiseProvider(23454));
-        w.scale = 0.01 / 4;
-        w.maxOutput = 9;
-        w.minOutput = -9;
-        g.warp = w;
-        Generator ww = new Generator(new WhiteProvider(234154));
-        ww.scale = 0.01 / 8;
-        ww.maxOutput = 0.01;
-        ww.minOutput = -0.01;
-        w.warp = ww;
-        ValueAccessor3D gg = new StarcastInterpolator(g, 64, 12);
-        CompositeGenerator c = new CompositeGenerator(CompositeGenerator.CompositeMode.ADD);
-        Generator gxc = new Generator(new SimplexProvider(234985));
-        gxc.scale = 0.0001;
-        c.add(gg);
-        c.add(gxc);
-        Generator gx = new Generator(c);
-        gx.maxInput = 2;
-        gx.minInput = 0;
+        Generator g = new Generator( new GlobProvider(1337));
+        g.scale = 0.01;
 
-        showNoise(gx);
+        showNoise(g);
 
 
 
@@ -76,7 +47,7 @@ public class NoiseRenderer {
 
     public static JFrame frame;
 
-    public static void showNoise(ValueAccessor2D g)
+    public static void showNoise(ValuePlane2D g)
     {
         frame = new NoiseRenderFrame(g);
         frame.setSize(700, 700);
@@ -99,12 +70,12 @@ public class NoiseRenderer {
 
     public static class NoiseRenderFrame extends JFrame
     {
-        private final ValueAccessor2D generator;
+        private final ValuePlane2D generator;
         private BufferedImage image;
         private int lw;
         private int lh;
 
-        public NoiseRenderFrame(ValueAccessor2D generator)
+        public NoiseRenderFrame(ValuePlane2D generator)
         {
             this.generator = generator;
             lw = getWidth();

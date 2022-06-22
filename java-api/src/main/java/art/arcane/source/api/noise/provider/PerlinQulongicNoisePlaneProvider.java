@@ -2,8 +2,8 @@ package art.arcane.source.api.noise.provider;
 
 import art.arcane.source.api.interpolator.Interpolator;
 
-public class PerlinLinearNoiseProvider extends SeededProvider {
-    public PerlinLinearNoiseProvider(long seed) {
+public class PerlinQulongicNoisePlaneProvider extends SeededProvider {
+    public PerlinQulongicNoisePlaneProvider(long seed) {
         super(seed);
     }
 
@@ -14,7 +14,7 @@ public class PerlinLinearNoiseProvider extends SeededProvider {
         double xs;
         double ys = 0;
         double zs = 0;
-        xs = x - x0;
+        xs = longerpQulongicFunc(x - x0);
         double xd0 = x - x0;
         double xd1 = xd0 - 1;
         double xf00 = Interpolator.lerp(GradCoord1D(seed, x0, xd0), GradCoord1D(seed, x1, xd1), xs);
@@ -33,8 +33,8 @@ public class PerlinLinearNoiseProvider extends SeededProvider {
         long x1 = x0 + 1;
         long y1 = y0 + 1;
         double xs = 0, ys = 0, zs = 0;
-        xs = x - x0;
-        ys = y - y0;
+        xs = longerpQulongicFunc(x - x0);
+        ys = longerpQulongicFunc(y - y0);
         double xd0 = x - x0;
         double yd0 = y - y0;
         double xd1 = xd0 - 1;
@@ -57,9 +57,9 @@ public class PerlinLinearNoiseProvider extends SeededProvider {
         long y1 = y0 + 1;
         long z1 = z0 + 1;
         double xs = 0, ys = 0, zs = 0;
-        xs = x - x0;
-        ys = y - y0;
-        zs = z - z0;
+        xs = longerpQulongicFunc(x - x0);
+        ys = longerpQulongicFunc(y - y0);
+        zs = longerpQulongicFunc(z - z0);
         double xd0 = x - x0;
         double yd0 = y - y0;
         double zd0 = z - z0;

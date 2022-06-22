@@ -1,14 +1,14 @@
 package art.arcane.source.api.interpolator;
 
-import art.arcane.source.api.accessor.ValueAccessor3D;
-import art.arcane.source.api.noise.provider.NoiseProvider;
+import art.arcane.source.api.NoisePlane;
+import art.arcane.source.api.noise.provider.NoisePlaneProvider;
 
-public abstract class Interpolator implements NoiseProvider {
-    protected final ValueAccessor3D input;
+public abstract class Interpolator implements NoisePlaneProvider {
+    protected final NoisePlane input;
     protected final double scale;
     protected final double iscale;
     
-    public Interpolator(ValueAccessor3D input, double scale)
+    public Interpolator(NoisePlane input, double scale)
     {
         this.input = input;
         this.scale = scale;
@@ -17,9 +17,9 @@ public abstract class Interpolator implements NoiseProvider {
 
     public long getSeed()
     {
-        if(input instanceof NoiseProvider)
+        if(input instanceof NoisePlaneProvider)
         {
-            return ((NoiseProvider) input).getSeed();
+            return ((NoisePlaneProvider) input).getSeed();
         }
 
         return -1;

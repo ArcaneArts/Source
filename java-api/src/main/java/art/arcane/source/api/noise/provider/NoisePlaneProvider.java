@@ -1,10 +1,10 @@
 package art.arcane.source.api.noise.provider;
 
-import art.arcane.source.api.accessor.ValueAccessor3D;
+import art.arcane.source.api.NoisePlane;
 import art.arcane.source.api.util.Double2;
 import art.arcane.source.api.util.Double3;
 
-public interface NoiseProvider extends ValueAccessor3D {
+public interface NoisePlaneProvider extends NoisePlane {
     Double[] GRAD_1D = { -1D, 0D, 1D};
     Double2[] GRAD_2D = {new Double2(-1, -1), new Double2(1, -1), new Double2(-1, 1), new Double2(1, 1), new Double2(0, -1), new Double2(-1, 0), new Double2(0, 1), new Double2(1, 0),};
     Double3[] GRAD_3D = {new Double3(1, 1, 0), new Double3(-1, 1, 0), new Double3(1, -1, 0), new Double3(-1, -1, 0), new Double3(1, 0, 1), new Double3(-1, 0, 1), new Double3(1, 0, -1), new Double3(-1, 0, -1), new Double3(0, 1, 1), new Double3(0, -1, 1), new Double3(0, 1, -1), new Double3(0, -1, -1), new Double3(1, 1, 0), new Double3(0, -1, 1), new Double3(-1, 1, 0), new Double3(0, -1, -1),};
@@ -23,6 +23,8 @@ public interface NoiseProvider extends ValueAccessor3D {
     long Y_PRIME = 31337;
     long Z_PRIME = 6971;
     long W_PRIME = 1013;
+    double CUBIC_3D_BOUNDING = 1 / (1.5 * 1.5 * 1.5);
+    double CUBIC_2D_BOUNDING = 1 / (1.5 * 1.5);
 
     long getSeed();
 
@@ -198,5 +200,24 @@ public interface NoiseProvider extends ValueAccessor3D {
         long i = Double.doubleToRawLongBits(f);
 
         return i ^ (i >> 16);
+    }
+
+    default double singleCubic(long seed, double x, double y, double z) {
+        long x1 = floor(x);
+        long y1 = floor(y);
+        long z1 = floor(z);
+        long x0 = x1 - 1;
+        long y0 = y1 - 1;
+        long z0 = z1 - 1;
+        long x2 = x1 + 1;
+        long y2 = y1 + 1;
+        long z2 = z1 + 1;
+        long x3 = x1 + 2;
+        long y3 = y1 + 2;
+        long z3 = z1 + 2;
+        double xs = x - (double) x1;
+        double ys = y - (double) y1;
+        double zs = z - (double) z1;
+        return cubicLerp(cubicLerp(cubicLerp(valCoord3D(seed, x0, y0, z0), valCoord3D(seed, x1, y0, z0), valCoord3D(seed, x2, y0, z0), valCoord3D(seed, x3, y0, z0), xs), cubicLerp(valCoord3D(seed, x0, y1, z0), valCoord3D(seed, x1, y1, z0), valCoord3D(seed, x2, y1, z0), valCoord3D(seed, x3, y1, z0), xs), cubicLerp(valCoord3D(seed, x0, y2, z0), valCoord3D(seed, x1, y2, z0), valCoord3D(seed, x2, y2, z0), valCoord3D(seed, x3, y2, z0), xs), cubicLerp(valCoord3D(seed, x0, y3, z0), valCoord3D(seed, x1, y3, z0), valCoord3D(seed, x2, y3, z0), valCoord3D(seed, x3, y3, z0), xs), ys), cubicLerp(cubicLerp(valCoord3D(seed, x0, y0, z1), valCoord3D(seed, x1, y0, z1), valCoord3D(seed, x2, y0, z1), valCoord3D(seed, x3, y0, z1), xs), cubicLerp(valCoord3D(seed, x0, y1, z1), valCoord3D(seed, x1, y1, z1), valCoord3D(seed, x2, y1, z1), valCoord3D(seed, x3, y1, z1), xs), cubicLerp(valCoord3D(seed, x0, y2, z1), valCoord3D(seed, x1, y2, z1), valCoord3D(seed, x2, y2, z1), valCoord3D(seed, x3, y2, z1), xs), cubicLerp(valCoord3D(seed, x0, y3, z1), valCoord3D(seed, x1, y3, z1), valCoord3D(seed, x2, y3, z1), valCoord3D(seed, x3, y3, z1), xs), ys), cubicLerp(cubicLerp(valCoord3D(seed, x0, y0, z2), valCoord3D(seed, x1, y0, z2), valCoord3D(seed, x2, y0, z2), valCoord3D(seed, x3, y0, z2), xs), cubicLerp(valCoord3D(seed, x0, y1, z2), valCoord3D(seed, x1, y1, z2), valCoord3D(seed, x2, y1, z2), valCoord3D(seed, x3, y1, z2), xs), cubicLerp(valCoord3D(seed, x0, y2, z2), valCoord3D(seed, x1, y2, z2), valCoord3D(seed, x2, y2, z2), valCoord3D(seed, x3, y2, z2), xs), cubicLerp(valCoord3D(seed, x0, y3, z2), valCoord3D(seed, x1, y3, z2), valCoord3D(seed, x2, y3, z2), valCoord3D(seed, x3, y3, z2), xs), ys), cubicLerp(cubicLerp(valCoord3D(seed, x0, y0, z3), valCoord3D(seed, x1, y0, z3), valCoord3D(seed, x2, y0, z3), valCoord3D(seed, x3, y0, z3), xs), cubicLerp(valCoord3D(seed, x0, y1, z3), valCoord3D(seed, x1, y1, z3), valCoord3D(seed, x2, y1, z3), valCoord3D(seed, x3, y1, z3), xs), cubicLerp(valCoord3D(seed, x0, y2, z3), valCoord3D(seed, x1, y2, z3), valCoord3D(seed, x2, y2, z3), valCoord3D(seed, x3, y2, z3), xs), cubicLerp(valCoord3D(seed, x0, y3, z3), valCoord3D(seed, x1, y3, z3), valCoord3D(seed, x2, y3, z3), valCoord3D(seed, x3, y3, z3), xs), ys), zs) * CUBIC_3D_BOUNDING;
     }
 }

@@ -1,20 +1,19 @@
 package art.arcane.source.api.noise;
 
-import art.arcane.source.api.accessor.ValueAccessor3D;
+import art.arcane.source.api.NoisePlane;
 import art.arcane.source.api.interpolator.Interpolator;
-import art.arcane.source.api.noise.provider.NoiseProvider;
 
-public class Generator implements ValueAccessor3D {
-    private final ValueAccessor3D provider;
+public class Generator implements NoisePlane {
+    private final NoisePlane provider;
     public double scale;
     public double minInput;
     public double maxInput;
     public double minOutput;
     public double maxOutput;
     public double power;
-    public ValueAccessor3D warp;
+    public NoisePlane warp;
 
-    public Generator(ValueAccessor3D provider)
+    public Generator(NoisePlane provider)
     {
         this.minInput = -1;
         this.maxInput = 1;

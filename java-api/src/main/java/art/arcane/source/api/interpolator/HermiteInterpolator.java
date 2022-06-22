@@ -1,13 +1,13 @@
 package art.arcane.source.api.interpolator;
 
-import art.arcane.source.api.accessor.ValueAccessor3D;
+import art.arcane.source.api.NoisePlane;
 
 public class HermiteInterpolator extends Interpolator
 {
     public double tension;
     public double bias;
 
-    public HermiteInterpolator(ValueAccessor3D input, double scale) {
+    public HermiteInterpolator(NoisePlane input, double scale) {
         super(input, scale);
         this.tension = 0;
         this.bias = 0;

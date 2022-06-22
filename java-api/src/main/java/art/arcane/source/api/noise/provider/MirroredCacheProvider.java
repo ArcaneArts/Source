@@ -1,12 +1,12 @@
 package art.arcane.source.api.noise.provider;
 
-import art.arcane.source.api.accessor.ValueAccessor3D;
+import art.arcane.source.api.NoisePlane;
 import art.arcane.source.api.util.MirroredFloatCache;
 
-public class MirroredCacheProvider implements ValueAccessor3D {
+public class MirroredCacheProvider implements NoisePlane {
     private MirroredFloatCache cache;
 
-    public MirroredCacheProvider(ValueAccessor3D generator, int width, int height)
+    public MirroredCacheProvider(NoisePlane generator, int width, int height)
     {
         cache = new MirroredFloatCache(width, height);
 
