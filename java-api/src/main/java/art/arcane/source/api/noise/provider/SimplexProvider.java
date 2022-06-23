@@ -1,41 +1,8 @@
 package art.arcane.source.api.noise.provider;
 
-import art.arcane.source.api.util.Double2;
-import art.arcane.source.api.util.Vector2d;
-import art.arcane.source.api.util.Vector3d;
-
 public class SimplexProvider extends SeededProvider {
     public SimplexProvider(long seed) {
         super(seed);
-    }
-
-    @Override
-    public double noise(double x, double y) {
-
-        double ix = floor(x + (x + y) * K1);
-        double iy = floor(y + (x + y) * K1);;
-        double ax = x - ix + (ix + iy) * K2;
-        double ay = y - iy + (ix + iy) * K2;
-        double m = ay > ax ? 1 : 0;
-        double ox = m;
-        double oy = 1D - m;
-        double bx = ax - ox + K2;
-        double by = ay - oy + K2;
-        double cx = ax - 1.0 + 2.0 * K2;
-        double cy = ay - 1.0 + 2.0 * K2;
-        double hx = Math.max(0.5 - Vector2d.dot(ax, ay, ax, ay), 0D);
-        double hy = Math.max(0.5 - Vector2d.dot(bx, by, bx, by), 0D);
-        double hz = Math.max(0.5 - Vector2d.dot(cx, cy, cx, cy), 0D);
-        double hashax = valCoord2D(seed, (long)ix, (long)iy);
-        double hashay = valCoord2D(seed+1, (long)ix, (long)iy);
-        double hashbx = valCoord2D(seed+2, (long)(ix + oy), (long)(iy + ox));
-        double hashby = valCoord2D(seed+3, (long)(ix + oy), (long)(iy + ox));
-        double hashcx = valCoord2D(seed+4, (long)ix+1, (long)iy+1);
-        double hashcy = valCoord2D(seed+5, (long)-iy+1, (long)ix+1);
-        double nx = hx * hx * hx * hx * Vector2d.dot(ax, ay, hashax, hashay);
-        double ny = hy * hy * hy * hy * Vector2d.dot(bx, by, hashbx, hashby);
-        double nz = hz * hz * hz * hz * Vector2d.dot(ax, ay, hashcx, hashcy);
-        return Vector3d.dot(nx, ny, nz, 70, 70, 70);
     }
 
     @Override

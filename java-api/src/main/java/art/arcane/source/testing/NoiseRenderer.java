@@ -1,9 +1,6 @@
 package art.arcane.source.testing;
 
 import art.arcane.source.api.NoisePlane;
-import art.arcane.source.api.fractal.FractalBillowProvider;
-import art.arcane.source.api.fractal.FractalFBMProvider;
-import art.arcane.source.api.fractal.FractalRigidMultiProvider;
 import art.arcane.source.api.noise.Generator;
 import art.arcane.source.api.noise.provider.*;
 
@@ -16,11 +13,11 @@ public class NoiseRenderer {
     public static void main(String[] a)
     {
         Generator g = new Generator(new SimplexProvider(1337));
-        g.scale = 0.01;
-        Generator generator = new Generator(g);
-        generator.minOutput = 0;
-        generator.maxOutput = 1;
-        showNoise(generator);
+        g.scale = 0.1;
+        NoisePlane p = new MirroredCacheProvider(g, 1024, 1024);
+        p.benchmark("Simplex", 1000);
+        Generator gg = new Generator(p);
+        showNoise(gg);
 
 
 
