@@ -2,3 +2,7 @@
 java-api/build/
 
 java-api/.gradle/
+
+dart-api/.idea/
+
+dart-api/bin/
