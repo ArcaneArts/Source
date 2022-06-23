@@ -165,6 +165,12 @@ public class Vector3d extends Tuple3d implements java.io.Serializable {
         return (this.x * v1.x + this.y * v1.y + this.z * v1.z);
     }
 
+    public static final double dot(double x1, double y1, double z1, double x2, double y2, double z2)
+    {
+        return x1 * x2 + y1 * y2 + z1 * z2;
+    }
+
+
 
     /**
      * Returns the squared length of this vector.

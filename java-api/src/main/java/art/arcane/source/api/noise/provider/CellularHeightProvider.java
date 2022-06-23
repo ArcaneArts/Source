@@ -2,7 +2,6 @@ package art.arcane.source.api.noise.provider;
 
 import art.arcane.source.api.util.Double2;
 import art.arcane.source.api.util.Double3;
-import art.arcane.source.api.util.FastNoiseDouble;
 
 public class CellularHeightProvider extends SeededProvider {
     public CellularHeightProvider(long seed) {

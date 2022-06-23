@@ -6,18 +6,53 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CompositeGenerator implements NoisePlane {
-    private final List<NoisePlane> generators;
+    private final NoisePlane[] generators;
     private final CompositeMode mode;
+    private final double minOutput;
+    private final double maxOutput;
 
-    public CompositeGenerator(CompositeMode mode)
+    public CompositeGenerator(CompositeMode mode, NoisePlane[] generators)
     {
-        generators = new ArrayList<>();
+        this.generators = generators;
         this.mode = mode;
+
+        if(mode == CompositeMode.ADD)
+        {
+            int min = 0;
+            int max = 0;
+            for(NoisePlane i : generators)
+            {
+                min += i.getMinOutput();
+                max+= i.getMaxOutput();
+            }
+
+            this.minOutput = min;
+            this.maxOutput = max;
+        }
+
+        else {
+            Double min = null;
+            Double max = null;
+
+            for(NoisePlane i : generators)
+            {
+                min = min == null ? i.getMinOutput() : Math.min(min, i.getMinOutput());
+                max = max == null ? i.getMaxOutput() : Math.max(max, i.getMaxOutput());
+            }
+
+            this.minOutput = min;
+            this.maxOutput = max;
+        }
     }
 
-    public void add(NoisePlane generator)
+    public double getMaxOutput()
     {
-        generators.add(generator);
+        return maxOutput;
+    }
+
+    public double getMinOutput()
+    {
+        return minOutput;
     }
 
     @Override

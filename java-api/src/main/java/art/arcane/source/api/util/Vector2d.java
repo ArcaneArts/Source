@@ -113,6 +113,11 @@ public class Vector2d extends Tuple2d implements java.io.Serializable {
         return (this.x * v1.x + this.y * v1.y);
     }
 
+    public static final double dot(double x1, double y1, double x2, double y2)
+    {
+        return x1 * x2 + y1 * y2;
+    }
+
 
     /**
      * Returns the length of this vector.

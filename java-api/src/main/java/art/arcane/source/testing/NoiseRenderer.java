@@ -1,6 +1,9 @@
 package art.arcane.source.testing;
 
-import art.arcane.source.api.accessor.ValuePlane2D;
+import art.arcane.source.api.NoisePlane;
+import art.arcane.source.api.fractal.FractalBillowProvider;
+import art.arcane.source.api.fractal.FractalFBMProvider;
+import art.arcane.source.api.fractal.FractalRigidMultiProvider;
 import art.arcane.source.api.noise.Generator;
 import art.arcane.source.api.noise.provider.*;
 
@@ -12,10 +15,12 @@ import java.awt.image.ImageObserver;
 public class NoiseRenderer {
     public static void main(String[] a)
     {
-        Generator g = new Generator( new GlobProvider(1337));
+        Generator g = new Generator(new SimplexProvider(1337));
         g.scale = 0.01;
-
-        showNoise(g);
+        Generator generator = new Generator(g);
+        generator.minOutput = 0;
+        generator.maxOutput = 1;
+        showNoise(generator);
 
 
 
@@ -47,7 +52,7 @@ public class NoiseRenderer {
 
     public static JFrame frame;
 
-    public static void showNoise(ValuePlane2D g)
+    public static void showNoise(NoisePlane g)
     {
         frame = new NoiseRenderFrame(g);
         frame.setSize(700, 700);
@@ -70,12 +75,12 @@ public class NoiseRenderer {
 
     public static class NoiseRenderFrame extends JFrame
     {
-        private final ValuePlane2D generator;
+        private final NoisePlane generator;
         private BufferedImage image;
         private int lw;
         private int lh;
 
-        public NoiseRenderFrame(ValuePlane2D generator)
+        public NoiseRenderFrame(NoisePlane generator)
         {
             this.generator = generator;
             lw = getWidth();

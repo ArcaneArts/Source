@@ -31,7 +31,6 @@ public abstract class Interpolator implements NoisePlaneProvider {
     public static final int Y2_D2 = 3;
     public static final int Z1_D2 = 4;
     public static final int Z2_D2 = 5;
-
     public static final int X1_D4 = 0;
     public static final int X2_D4 = 1;
     public static final int X3_D4 = 2;

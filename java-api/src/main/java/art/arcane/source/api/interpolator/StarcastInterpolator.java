@@ -1,11 +1,11 @@
 package art.arcane.source.api.interpolator;
 
-import art.arcane.source.api.accessor.ValuePlane2D;
 import art.arcane.source.api.NoisePlane;
 
 public class StarcastInterpolator extends Interpolator
 {
     private final double checks;
+    
     public StarcastInterpolator(NoisePlane input, double scale, double checks) {
         super(input, scale);
         this.checks = checks;
@@ -26,7 +26,7 @@ public class StarcastInterpolator extends Interpolator
         return noise(x, y);
     }
 
-    public static double starcast(int x, int z, double r, double checks, boolean optimized, ValuePlane2D n) {
+    public static double starcast(int x, int z, double r, double checks, boolean optimized, NoisePlane n) {
         if(optimized) {
             if(checks == 3) return sc3(x, z, r, n);
             else if(checks == 5) return sc5(x, z, r, n);
@@ -54,7 +54,7 @@ public class StarcastInterpolator extends Interpolator
         return v / checks;
     }
 
-    public static double starcast(int x, int z, double r, double checks, ValuePlane2D input) {
+    public static double starcast(int x, int z, double r, double checks, NoisePlane input) {
         return starcast(x, z, r, checks, true, input);
     }
 
@@ -65,7 +65,7 @@ public class StarcastInterpolator extends Interpolator
     private static final double F3C2 = -0.500000000000000444089209850062616169452667236328125;
     private static final double F3S2 = -0.86602540378443837454369713668711483478546142578125;
 
-    private static double sc3(int x, int z, double r, ValuePlane2D input) {
+    private static double sc3(int x, int z, double r, NoisePlane input) {
         return (input.noise(x + ((r * F3C0) - (r * F3S0)), z + ((r * F3S0) + (r * F3C0)))
                 + input.noise(x + ((r * F3C1) - (r * F3S1)), z + ((r * F3S1) + (r * F3C1)))
                 + input.noise(x + ((r * F3C2) - (r * F3S2)), z + ((r * F3S2) + (r * F3C2)))) / 3.0D;
@@ -82,7 +82,7 @@ public class StarcastInterpolator extends Interpolator
     private static final double F5C4 = 0.3090169943749472292182645105640403926372528076171875;
     private static final double F5S4 = -0.951056516295153642204240895807743072509765625;
 
-    private static double sc5(int x, int z, double r, ValuePlane2D input) {
+    private static double sc5(int x, int z, double r, NoisePlane input) {
         return (input.noise(x + ((r * F5C0) - (r * F5S0)), z + ((r * F5S0) + (r * F5C0)))
                 + input.noise(x + ((r * F5C1) - (r * F5S1)), z + ((r * F5S1) + (r * F5C1)))
                 + input.noise(x + ((r * F5C2) - (r * F5S2)), z + ((r * F5S2) + (r * F5C2)))
@@ -103,7 +103,7 @@ public class StarcastInterpolator extends Interpolator
     private static final double F6C5 = 0.50000000000000011102230246251565404236316680908203125;
     private static final double F6S5 = -0.8660254037844385965883020617184229195117950439453125;
 
-    private static double sc6(int x, int z, double r, ValuePlane2D input) {
+    private static double sc6(int x, int z, double r, NoisePlane input) {
         return (input.noise(x + ((r * F6C0) - (r * F6S0)), z + ((r * F6S0) + (r * F6C0)))
                 + input.noise(x + ((r * F6C1) - (r * F6S1)), z + ((r * F6S1) + (r * F6C1)))
                 + input.noise(x + ((r * F6C2) - (r * F6S2)), z + ((r * F6S2) + (r * F6C2)))
@@ -129,7 +129,7 @@ public class StarcastInterpolator extends Interpolator
     private static final double F7C7 = 0.99862953475457383323288240717374719679355621337890625;
     private static final double F7S7 = -0.052335956242944368932423770957029773853719234466552734375;
 
-    private static double sc7(int x, int z, double r, ValuePlane2D input) {
+    private static double sc7(int x, int z, double r, NoisePlane input) {
         return (input.noise(x + ((r * F7C0) - (r * F7S0)), z + ((r * F7S0) + (r * F7C0)))
                 + input.noise(x + ((r * F7C1) - (r * F7S1)), z + ((r * F7S1) + (r * F7C1)))
                 + input.noise(x + ((r * F7C2) - (r * F7S2)), z + ((r * F7S2) + (r * F7C2)))
@@ -159,7 +159,7 @@ public class StarcastInterpolator extends Interpolator
     private static final double F9C8 = 0.76604444311897779140707598344306461513042449951171875;
     private static final double F9S8 = -0.64278760968653958496332734284806065261363983154296875;
 
-    private static double sc9(int x, int z, double r, ValuePlane2D input) {
+    private static double sc9(int x, int z, double r, NoisePlane input) {
         return (input.noise(x + ((r * F9C0) - (r * F9S0)), z + ((r * F9S0) + (r * F9C0)))
                 + input.noise(x + ((r * F9C1) - (r * F9S1)), z + ((r * F9S1) + (r * F9C1)))
                 + input.noise(x + ((r * F9C2) - (r * F9S2)), z + ((r * F9S2) + (r * F9C2)))
@@ -196,7 +196,7 @@ public class StarcastInterpolator extends Interpolator
     private static final double F12C11 = 0.86602540378443837454369713668711483478546142578125;
     private static final double F12S11 = -0.500000000000000444089209850062616169452667236328125;
 
-    private static double sc12(int x, int z, double r, ValuePlane2D input) {
+    private static double sc12(int x, int z, double r, NoisePlane input) {
         return (input.noise(x + ((r * F12C0) - (r * F12S0)), z + ((r * F12S0) + (r * F12C0)))
                 + input.noise(x + ((r * F12C1) - (r * F12S1)), z + ((r * F12S1) + (r * F12C1)))
                 + input.noise(x + ((r * F12C2) - (r * F12S2)), z + ((r * F12S2) + (r * F12C2)))
@@ -260,7 +260,7 @@ public class StarcastInterpolator extends Interpolator
     private static final double F24C23 = 0.96592582628906831221371476203785277903079986572265625;
     private static final double F24S23 = -0.258819045102520683965252601410611532628536224365234375;
 
-    private static double sc24(int x, int z, double r, ValuePlane2D input) {
+    private static double sc24(int x, int z, double r, NoisePlane input) {
         return (input.noise(x + ((r * F24C0) - (r * F24S0)), z + ((r * F24S0) + (r * F24C0)))
                 + input.noise(x + ((r * F24C1) - (r * F24S1)), z + ((r * F24S1) + (r * F24C1)))
                 + input.noise(x + ((r * F24C2) - (r * F24S2)), z + ((r * F24S2) + (r * F24C2)))
@@ -354,7 +354,7 @@ public class StarcastInterpolator extends Interpolator
     private static final double F32C32 = 0.99026806874157025095684048210387118160724639892578125;
     private static final double F32S32 = -0.1391731009600658819369556340461713261902332305908203125;
 
-    private static double sc32(int x, int z, double r, ValuePlane2D input) {
+    private static double sc32(int x, int z, double r, NoisePlane input) {
         return (input.noise(x + ((r * F32C0) - (r * F32S0)), z + ((r * F32S0) + (r * F32C0)))
                 + input.noise(x + ((r * F32C1) - (r * F32S1)), z + ((r * F32S1) + (r * F32C1)))
                 + input.noise(x + ((r * F32C2) - (r * F32S2)), z + ((r * F32S2) + (r * F32C2)))
@@ -495,7 +495,7 @@ public class StarcastInterpolator extends Interpolator
     private static final double F48C51 = 0.99862953475457383323288240717374719679355621337890625;
     private static final double F48S51 = -0.052335956242944368932423770957029773853719234466552734375;
 
-    private static double sc48(int x, int z, double r, ValuePlane2D input) {
+    private static double sc48(int x, int z, double r, NoisePlane input) {
         return (input.noise(x + ((r * F48C0) - (r * F48S0)), z + ((r * F48S0) + (r * F48C0)))
                 + input.noise(x + ((r * F48C1) - (r * F48S1)), z + ((r * F48S1) + (r * F48C1)))
                 + input.noise(x + ((r * F48C2) - (r * F48S2)), z + ((r * F48S2) + (r * F48C2)))
@@ -695,7 +695,7 @@ public class StarcastInterpolator extends Interpolator
     private static final double F64C71 = 0.9961946980917455451987052583717741072177886962890625;
     private static final double F64S71 = -0.08715574274765831852551656311334227211773395538330078125;
 
-    private static double sc64(int x, int z, double r, ValuePlane2D input) {
+    private static double sc64(int x, int z, double r, NoisePlane input) {
         return (input.noise(x + ((r * F64C0) - (r * F64S0)), z + ((r * F64S0) + (r * F64C0)))
                 + input.noise(x + ((r * F64C1) - (r * F64S1)), z + ((r * F64S1) + (r * F64C1)))
                 + input.noise(x + ((r * F64C2) - (r * F64S2)), z + ((r * F64S2) + (r * F64C2)))

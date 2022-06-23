@@ -170,6 +170,11 @@ public abstract class Tuple2d implements java.io.Serializable, Cloneable {
         this.y = t1.y + t2.y;
     }
 
+    public void add(double v)
+    {
+        this.x += v;
+        this.y += v;
+    }
 
     /**
      * Sets the value of this tuple to the vector sum of itself and tuple t1.

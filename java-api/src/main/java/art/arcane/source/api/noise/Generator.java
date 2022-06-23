@@ -6,8 +6,8 @@ import art.arcane.source.api.interpolator.Interpolator;
 public class Generator implements NoisePlane {
     private final NoisePlane provider;
     public double scale;
-    public double minInput;
-    public double maxInput;
+    private final double minInput;
+    private final double maxInput;
     public double minOutput;
     public double maxOutput;
     public double power;
@@ -15,8 +15,8 @@ public class Generator implements NoisePlane {
 
     public Generator(NoisePlane provider)
     {
-        this.minInput = -1;
-        this.maxInput = 1;
+        this.minInput = provider.getMinOutput();
+        this.maxInput = provider.getMaxOutput();
         this.minOutput = 0;
         this.maxOutput = 1;
         this.provider = provider;
@@ -24,9 +24,19 @@ public class Generator implements NoisePlane {
         this.power = 1;
     }
 
+    public double getMaxOutput()
+    {
+        return maxOutput;
+    }
+
+    public double getMinOutput()
+    {
+        return minOutput;
+    }
+
     private double processDouble(double v)
     {
-        double r = Interpolator.rangeScale(minOutput, maxOutput, minInput, maxInput, v);
+        double r = (minInput == minOutput && maxInput == maxOutput) ? v : Interpolator.rangeScale(minOutput, maxOutput, minInput, maxInput, v);
 
         if(power != 1)
         {

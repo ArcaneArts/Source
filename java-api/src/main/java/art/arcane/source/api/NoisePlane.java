@@ -13,4 +13,14 @@ public interface NoisePlane {
     }
 
     double noise(double x, double y, double z);
+
+    default double getMaxOutput()
+    {
+        return 1;
+    }
+
+    default double getMinOutput()
+    {
+        return -1;
+    }
 }
