@@ -10,13 +10,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
 public class NoiseRenderer {
-    public static void main(String[] a)
-    {
-        Generator gg = new Generator(new SimplexProvider(123));
-        gg.scale = 0.01;
-        showNoise(gg);
-    }
-
     public static JFrame frame;
 
     public static void showNoise(NoisePlane g)
