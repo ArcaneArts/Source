@@ -2,16 +2,22 @@ package art.arcane.source.api.noise;
 
 import art.arcane.source.api.NoisePlane;
 import art.arcane.source.api.interpolator.Interpolator;
+import lombok.Builder;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
+@Data
+@Accessors(chain = true,
+    fluent = true)
 public class Generator implements NoisePlane {
     private final NoisePlane provider;
-    public double scale;
+    private double scale;
     private final double minInput;
     private final double maxInput;
-    public double minOutput;
-    public double maxOutput;
-    public double power;
-    public NoisePlane warp;
+    private double minOutput;
+    private double maxOutput;
+    private double power;
+    private NoisePlane warp;
 
     public Generator(NoisePlane provider)
     {

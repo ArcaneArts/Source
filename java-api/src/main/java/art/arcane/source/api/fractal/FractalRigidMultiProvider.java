@@ -2,14 +2,17 @@ package art.arcane.source.api.fractal;
 
 import art.arcane.source.api.NoisePlane;
 import art.arcane.source.api.noise.provider.SeededProvider;
+import lombok.experimental.Accessors;
 
 import java.util.function.Function;
 
+@Accessors(chain = true,
+    fluent = true)
 public class FractalRigidMultiProvider extends SeededProvider {
     private final NoisePlane[] planes;
-    public final int octaves;
-    public final double lacunarity;
-    public final double gain;
+    private final int octaves;
+    private final double lacunarity;
+    private final double gain;
 
     public FractalRigidMultiProvider(Function<Long, NoisePlane> generatorFactory, long baseSeed, int octaves, double gain, double lacunarity)
     {

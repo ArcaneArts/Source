@@ -14,6 +14,11 @@ public class MirroredFloatCache {
 
     public int zigZag(int coord, int size)
     {
+        if(coord < 0)
+        {
+            coord = Math.abs(coord);
+        }
+
         if(coord % (size * 2) >= size)
         {
             return (size) - (coord % size)-1;

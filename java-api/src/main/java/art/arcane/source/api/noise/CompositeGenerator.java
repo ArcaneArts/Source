@@ -1,10 +1,15 @@
 package art.arcane.source.api.noise;
 
 import art.arcane.source.api.NoisePlane;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
+@Accessors(chain = true,
+    fluent = true)
 public class CompositeGenerator implements NoisePlane {
     private final NoisePlane[] generators;
     private final CompositeMode mode;

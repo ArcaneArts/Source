@@ -2,7 +2,12 @@ package art.arcane.source.api.interpolator;
 
 import art.arcane.source.api.NoisePlane;
 import art.arcane.source.api.noise.provider.NoisePlaneProvider;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
+@Data
+@Accessors(chain = true,
+    fluent = true)
 public abstract class Interpolator implements NoisePlaneProvider {
     protected final NoisePlane input;
     protected final double scale;

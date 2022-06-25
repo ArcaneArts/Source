@@ -1,11 +1,19 @@
 package art.arcane.source.api.interpolator;
 
 import art.arcane.source.api.NoisePlane;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
+@Accessors(chain = true,
+    fluent = true)
 public class HermiteInterpolator extends Interpolator
 {
-    public double tension;
-    public double bias;
+    @Getter @Setter
+    private double tension;
+    @Getter @Setter
+    private double bias;
 
     public HermiteInterpolator(NoisePlane input, double scale) {
         super(input, scale);

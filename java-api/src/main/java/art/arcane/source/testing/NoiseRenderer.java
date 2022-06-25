@@ -12,39 +12,9 @@ import java.awt.image.ImageObserver;
 public class NoiseRenderer {
     public static void main(String[] a)
     {
-        Generator g = new Generator(new SimplexProvider(1337));
-        g.scale = 0.1;
-        NoisePlane p = new MirroredCacheProvider(g, 1024, 1024);
-        p.benchmark("Simplex", 1000);
-        Generator gg = new Generator(p);
+        Generator gg = new Generator(new SimplexProvider(123));
+        gg.scale = 0.01;
         showNoise(gg);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     public static JFrame frame;
@@ -61,7 +31,7 @@ public class NoiseRenderer {
             while(frame.isVisible())
             {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(250);
 
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -102,24 +72,24 @@ public class NoiseRenderer {
 
         public BufferedImage render()
         {
-            if(image == null || lw != getWidth() || lh != getHeight())
-            {
-                long ms = System.currentTimeMillis();
-                lw = getWidth();
-                lh = getHeight();
-                image = new BufferedImage(lw, lh, BufferedImage.TYPE_INT_RGB);
+           if(image == null || lw != getWidth() || lh != getHeight())
+           {
+               long ms = System.currentTimeMillis();
+               lw = getWidth();
+               lh = getHeight();
+               image = new BufferedImage(lw, lh, BufferedImage.TYPE_INT_RGB);
 
-                for(int i = 0; i < lw; i++)
-                {
-                    for(int j = 0; j < lh; j++)
-                    {
-                        double value = generator.noise(i, j);
-                        image.setRGB(i, j, Color.getHSBColor((float)value, 1f, 1f).getRGB());
-                    }
-                }
-                long dur = System.currentTimeMillis() - ms;
-                System.out.println("Render took " + dur + " ms");
-            }
+               for(int i = 0; i < lw; i++)
+               {
+                   for(int j = 0; j < lh; j++)
+                   {
+                       double value = generator.noise(i, j);
+                       image.setRGB(i, j, Color.getHSBColor((float)value, 1f, 1f).getRGB());
+                   }
+               }
+               long dur = System.currentTimeMillis() - ms;
+               System.out.println("Render took " + dur + " ms");
+           }
 
             return image;
         }
