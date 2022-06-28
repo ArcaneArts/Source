@@ -2,7 +2,7 @@ package art.arcane.source.testing;
 
 import art.arcane.source.api.NoisePlane;
 import art.arcane.source.api.noise.Generator;
-import art.arcane.source.api.noise.provider.*;
+import art.arcane.source.api.util.NoisePreset;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +11,11 @@ import java.awt.image.ImageObserver;
 
 public class NoiseRenderer {
     public static JFrame frame;
+
+    public static void main(String[] a)
+    {
+        showNoise(NoisePreset.SPATTER.create(123).fit(0, 1).scale(0.1));
+    }
 
     public static void showNoise(NoisePlane g)
     {
@@ -76,7 +81,7 @@ public class NoiseRenderer {
                {
                    for(int j = 0; j < lh; j++)
                    {
-                       double value = generator.noise(i, j);
+                       double value = generator.noise(i - (lw/2), j - (lh/2));
                        image.setRGB(i, j, Color.getHSBColor((float)value, 1f, 1f).getRGB());
                    }
                }

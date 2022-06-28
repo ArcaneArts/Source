@@ -1,5 +1,12 @@
 package art.arcane.source.api;
 
+import art.arcane.source.api.fractal.FractalFBMProvider;
+import art.arcane.source.api.noise.provider.ExponentProvider;
+import art.arcane.source.api.noise.provider.FittedProvider;
+import art.arcane.source.api.noise.provider.OctaveProvider;
+import art.arcane.source.api.noise.provider.ScaledProvider;
+import art.arcane.source.api.noise.provider.WarpedProvider;
+
 @FunctionalInterface
 public interface NoisePlane {
     default double noise(double x)
@@ -13,6 +20,33 @@ public interface NoisePlane {
     }
 
     double noise(double x, double y, double z);
+
+    default NoisePlane octave(int octaves, double gain)
+    {
+        return new OctaveProvider(this, octaves, gain);
+    }
+
+    default NoisePlane fit(double min, double max) {
+        if(this instanceof FittedProvider s)
+        {
+            return new FittedProvider(s.getGenerator(), min, max);
+        }
+        return new FittedProvider(this, min, max);
+    }
+    default NoisePlane exponent(double exponent){
+        return new ExponentProvider(this, exponent);
+    }
+    default NoisePlane scale(double scale) {
+        if(this instanceof ScaledProvider s)
+        {
+            return new ScaledProvider(s.getGenerator(), s.getScale() * scale);
+        }
+
+        return new ScaledProvider(this, scale);
+    }
+    default NoisePlane warp(NoisePlane warp, double scale, double multiplier){
+        return new WarpedProvider(this, warp, scale, multiplier);
+    }
 
     default double getMaxOutput()
     {
