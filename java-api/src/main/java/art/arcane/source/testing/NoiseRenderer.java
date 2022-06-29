@@ -14,7 +14,7 @@ public class NoiseRenderer {
 
     public static void main(String[] a)
     {
-        showNoise(NoisePreset.SPATTER.create(123).fit(0, 1).scale(0.1));
+        showNoise(NoisePreset.NATURAL.create(123).fit(0, 1).scale(0.1));
     }
 
     public static void showNoise(NoisePlane g)
