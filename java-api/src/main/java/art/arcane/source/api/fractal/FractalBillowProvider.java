@@ -1,7 +1,6 @@
 package art.arcane.source.api.fractal;
 
 import art.arcane.source.api.NoisePlane;
-import art.arcane.source.api.noise.Generator;
 import art.arcane.source.api.noise.provider.SeededProvider;
 import lombok.experimental.Accessors;
 
@@ -54,11 +53,7 @@ public class FractalBillowProvider extends SeededProvider {
     {
         if(plane.getMinOutput() != -1 || plane.getMaxOutput() != 1)
         {
-            Generator g = new Generator(plane);
-            g.minOutput(-1);
-            g.maxOutput(1);
-
-            return g;
+            return plane.fit(-1, 1);
         }
 
         return plane;

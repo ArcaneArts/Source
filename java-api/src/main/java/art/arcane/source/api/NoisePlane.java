@@ -1,13 +1,11 @@
 package art.arcane.source.api;
 
-import art.arcane.source.api.fractal.FractalFBMProvider;
 import art.arcane.source.api.noise.provider.ExponentProvider;
 import art.arcane.source.api.noise.provider.FittedProvider;
 import art.arcane.source.api.noise.provider.OctaveProvider;
 import art.arcane.source.api.noise.provider.ScaledProvider;
 import art.arcane.source.api.noise.provider.WarpedProvider;
 
-@FunctionalInterface
 public interface NoisePlane {
     default double noise(double x)
     {

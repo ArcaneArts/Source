@@ -1,9 +1,12 @@
 package art.arcane.source.testing;
 
 import art.arcane.source.api.NoisePlane;
-import art.arcane.source.api.noise.Generator;
+import art.arcane.source.api.noise.provider.PerlinProvider;
+import art.arcane.source.api.noise.provider.SimplexProvider;
+import art.arcane.source.api.script.NoisePlaneConstructor;
 import art.arcane.source.api.util.NoisePreset;
 
+import javax.script.ScriptException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -11,11 +14,6 @@ import java.awt.image.ImageObserver;
 
 public class NoiseRenderer {
     public static JFrame frame;
-
-    public static void main(String[] a)
-    {
-        showNoise(NoisePreset.NATURAL.create(123).fit(0, 1).scale(0.1));
-    }
 
     public static void showNoise(NoisePlane g)
     {
