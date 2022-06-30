@@ -1,5 +1,10 @@
 package art.arcane.source.api;
 
+import art.arcane.source.api.interpolator.CubicInterpolator;
+import art.arcane.source.api.interpolator.HermiteInterpolator;
+import art.arcane.source.api.interpolator.LinearInterpolator;
+import art.arcane.source.api.interpolator.StarcastInterpolator;
+import art.arcane.source.api.noise.provider.Cellularizer;
 import art.arcane.source.api.noise.provider.ExponentProvider;
 import art.arcane.source.api.noise.provider.FittedProvider;
 import art.arcane.source.api.noise.provider.OctaveProvider;
@@ -17,7 +22,38 @@ public interface NoisePlane {
         return noise(x, y, 0);
     }
 
+
     double noise(double x, double y, double z);
+
+    default CubicInterpolator cubic(double scale)
+    {
+        return new CubicInterpolator(this, scale);
+    }
+
+    default HermiteInterpolator hermite(double scale)
+    {
+        return new HermiteInterpolator(this, scale);
+    }
+
+    default LinearInterpolator linear(double scale)
+    {
+        return new LinearInterpolator(this, scale);
+    }
+
+    default StarcastInterpolator starcast(double scale, double checks)
+    {
+        return new StarcastInterpolator(this, scale, checks);
+    }
+
+    default StarcastInterpolator starcast(double scale)
+    {
+        return new StarcastInterpolator(this, scale, 9D);
+    }
+
+    default NoisePlane cellularize(long seed)
+    {
+        return new Cellularizer(this, seed);
+    }
 
     default NoisePlane octave(int octaves, double gain)
     {

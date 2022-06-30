@@ -1,19 +1,41 @@
 package art.arcane.source.testing;
 
 import art.arcane.source.api.NoisePlane;
+import art.arcane.source.api.noise.provider.ExponentProvider;
+import art.arcane.source.api.noise.provider.ExpressionProvider;
+import art.arcane.source.api.noise.provider.NoisePlaneProvider;
 import art.arcane.source.api.noise.provider.PerlinProvider;
 import art.arcane.source.api.noise.provider.SimplexProvider;
 import art.arcane.source.api.script.NoisePlaneConstructor;
 import art.arcane.source.api.util.NoisePreset;
+import com.dfsek.paralithic.eval.tokenizer.ParseException;
 
 import javax.script.ScriptException;
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class NoiseRenderer {
     public static JFrame frame;
+
+    public static void main(String[] a) throws ScriptException, ParseException {
+        showNoise(new ExpressionProvider("sin(x + y)"));
+    }
 
     public static void showNoise(NoisePlane g)
     {
