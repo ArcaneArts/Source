@@ -6,3 +6,9 @@ java-api/.gradle/
 dart-api/.idea/
 
 dart-api/bin/
+
+.gradle/
+
+.idea/
+
+.DS_Store
