@@ -15,16 +15,38 @@ public class FittedProvider implements NoisePlane
 
     @Override
     public double noise(double x) {
+
+        if(generator.getMinOutput() == min && generator.getMaxOutput() == max) {
+            return generator.noise(x);
+        }
+        if(generator.getMinOutput() == -1 && generator.getMaxOutput() == 1 && min == 0) {
+           return ((generator.noise(x)+1) * 0.5)*max;
+        }
+
         return Interpolator.rangeScale(min, max, generator.getMinOutput(), generator.getMaxOutput(), generator.noise(x));
     }
 
     @Override
     public double noise(double x, double y) {
+        if(generator.getMinOutput() == min && generator.getMaxOutput() == max) {
+            return generator.noise(x, y);
+        }
+        if(generator.getMinOutput() == -1 && generator.getMaxOutput() == 1 && min == 0) {
+            return ((generator.noise(x,y)+1) * 0.5)*max;
+        }
+
         return Interpolator.rangeScale(min, max, generator.getMinOutput(), generator.getMaxOutput(), generator.noise(x, y));
     }
 
     @Override
     public double noise(double x, double y, double z) {
+
+        if(generator.getMinOutput() == min && generator.getMaxOutput() == max) {
+            return generator.noise(x, y, z);
+        }
+        if(generator.getMinOutput() == -1 && generator.getMaxOutput() == 1 && min == 0) {
+            return ((generator.noise(x,y,z)+1) * 0.5)*max;
+        }
         return Interpolator.rangeScale(min, max, generator.getMinOutput(), generator.getMaxOutput(), generator.noise(x, y, z));
     }
 
