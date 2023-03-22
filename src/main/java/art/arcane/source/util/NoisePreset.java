@@ -26,7 +26,7 @@ public enum NoisePreset
     BENDPLEX((s) -> new SimplexProvider(s).warp(new PerlinProvider(s+1), 3.5, 0.25)),
     DROOPY((s) -> new SimplexProvider(s).warp(new PerlinProvider(s+1), 1.7, 0.75)),
     WRINKLEPLEX((s) -> new SimplexProvider(s).warp(new PerlinProvider(s+1), 5.7, 0.15)),
-    NATURAL((s) -> new SimplexProvider(s).octave(2, 0.5)
+        NATURAL((s) -> new SimplexProvider(s).octave(2, 0.5)
         .warp(new PerlinProvider(s+2), 0.99, 0.55)
         .warp(new PerlinProvider(s+1), 8.7, 0.07)),
     WETLAND((s) -> new FractalBillowProvider(PerlinProvider::new, s, 1, 0, 2D)),

@@ -1,6 +1,9 @@
 package art.arcane.source.util;
 
-public class FloatCache {
+import art.arcane.source.NoisePlane;
+import art.arcane.source.noise.NoiseTarget;
+
+public class FloatCache implements NoiseTarget {
     private final float[] cache;
     private final int width;
     private final int height;
@@ -20,5 +23,14 @@ public class FloatCache {
     public float get(int x, int y)
     {
         return cache[((y%height) * width) + (x % width)];
+    }
+
+    @Override
+    public void collect(NoisePlane plane) {
+        for(int x = 0; x < width; x++) {
+            for(int y = 0; y < height; y++) {
+                set(x, y, (float) plane.noise(x, y));
+            }
+        }
     }
 }

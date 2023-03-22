@@ -1,6 +1,9 @@
 package art.arcane.source.util;
 
-public class MirroredFloatCache {
+import art.arcane.source.NoisePlane;
+import art.arcane.source.noise.NoiseTarget;
+
+public class MirroredFloatCache implements NoiseTarget {
     private final float[] cache;
     private final int width;
     private final int height;
@@ -37,5 +40,14 @@ public class MirroredFloatCache {
     public float get(int x, int y)
     {
         return cache[(zigZag(y, height) * width) + zigZag(x, width)];
+    }
+
+    @Override
+    public void collect(NoisePlane plane) {
+        for(int x = 0; x < width; x++) {
+            for(int y = 0; y < height; y++) {
+                set(x, y, (float) plane.noise(x, y));
+            }
+        }
     }
 }

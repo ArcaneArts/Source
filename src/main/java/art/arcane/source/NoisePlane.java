@@ -4,12 +4,17 @@ import art.arcane.source.interpolator.CubicInterpolator;
 import art.arcane.source.interpolator.HermiteInterpolator;
 import art.arcane.source.interpolator.LinearInterpolator;
 import art.arcane.source.interpolator.StarcastInterpolator;
+import art.arcane.source.noise.NoiseTarget;
 import art.arcane.source.noise.provider.*;
 import art.arcane.source.util.Weighted;
 
 import java.util.List;
 
 public interface NoisePlane {
+    default void fill(NoiseTarget target) {
+        target.collect(this);
+    }
+
     default MaxProvider max(NoisePlane other) {
         return new MaxProvider(this, other);
     }
