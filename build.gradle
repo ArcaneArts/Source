@@ -6,6 +6,8 @@ plugins {
     id 'com.jfrog.artifactory' version '4.29.0'
 }
 
+apply plugin: 'java'
+
 group 'art.arcane'
 version System.getenv("JFROG_VERSION") ?: '1.0.0'
 
