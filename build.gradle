@@ -24,6 +24,12 @@ dependencies {
     implementation 'org.apache-extras.beanshell:bsh:2.0b6'
 }
 
+configurations {
+    archives{
+        canBeResolved = true
+    }
+}
+
 test {
     useJUnitPlatform()
 }
