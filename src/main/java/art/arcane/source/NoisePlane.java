@@ -167,6 +167,11 @@ public interface NoisePlane {
         return list.get(i(x, 0, list.size()-1));
     }
 
+    default <T> T pickArray(double x, T[] array)
+    {
+        return array[i(x, 0, array.length-1)];
+    }
+
     default InvertedProvider invert() {
         return new InvertedProvider(this);
     }
