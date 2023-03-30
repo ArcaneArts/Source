@@ -15,11 +15,10 @@ import java.util.List;
 
 public class Example {
     public static void main(String[] a) {
-        NoisePlane plane = NoisePreset.THERMA.create(0)
-                .scale(0.1)
-                .slope(3)
-                .edgeDetect(0.01)
-                .invert()
+        NoisePlane plane = NoisePreset.SIMPLEX.create(0)
+                .scale(0.01)
+                .cachedMirror(1024)
+                .warp(NoisePreset.PERLIN.create(1).cachedMirror(32).scale(0.01), 1, 1000)
                 ;
         Visualizer.launch(plane);
     }
