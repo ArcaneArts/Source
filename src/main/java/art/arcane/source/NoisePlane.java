@@ -6,6 +6,7 @@ import art.arcane.source.interpolator.LinearInterpolator;
 import art.arcane.source.interpolator.StarcastInterpolator;
 import art.arcane.source.noise.NoiseTarget;
 import art.arcane.source.noise.provider.*;
+import art.arcane.source.util.NoisePreset;
 import art.arcane.source.util.Weighted;
 
 import java.util.List;
@@ -13,6 +14,10 @@ import java.util.List;
 public interface NoisePlane {
     default void fill(NoiseTarget target) {
         target.collect(this);
+    }
+
+    default NoisePlane slope(double radius) {
+        return new Sloper(this, radius);
     }
 
     default MaxProvider max(NoisePlane other) {
@@ -33,6 +38,9 @@ public interface NoisePlane {
 
     default MultiplyingProvider multiply(NoisePlane other) {
         return new MultiplyingProvider(this, other);
+    }
+    default NoisePlane multiply(double other) {
+        return new FlatMultiplyingProvider(this, other);
     }
 
     default int i(double x, double y, double z, int min, int max)
@@ -275,6 +283,15 @@ public interface NoisePlane {
     default NoisePlane exponent(double exponent){
         return new ExponentProvider(this, exponent);
     }
+
+    default NoisePlane edgeDetect(double percentChangeThreshold) {
+        return edgeDetect(percentChangeThreshold, false);
+    }
+
+    default NoisePlane edgeDetect(double percentChangeThreshold, boolean fast) {
+        return new EdgeDetector(this, percentChangeThreshold, fast);
+    }
+
     default NoisePlane scale(double scale) {
         if(this instanceof ScaledProvider s)
         {

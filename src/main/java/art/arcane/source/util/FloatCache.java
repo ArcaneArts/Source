@@ -2,7 +2,10 @@ package art.arcane.source.util;
 
 import art.arcane.source.NoisePlane;
 import art.arcane.source.noise.NoiseTarget;
+import lombok.Data;
+import lombok.Getter;
 
+@Data
 public class FloatCache implements NoiseTarget {
     private final float[] cache;
     private final int width;

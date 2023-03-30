@@ -18,6 +18,10 @@ public enum NoisePreset
     // RAW Noise Providers
     SIMPLEX(SimplexProvider::new),
     CELLULAR(CellularProvider::new),
+    CELLULAR_EDGE((s) -> NoisePreset.CELLULAR.create(s).edgeDetect(0.000000001, true)),
+    CELLULAR_EDGE_THIN((s) -> NoisePreset.CELLULAR.create(s).scale(0.25).edgeDetect(0.000000001, true)),
+    CELLULAR_EDGE_HAIRTHIN((s) -> NoisePreset.CELLULAR.create(s).scale(0.1).edgeDetect(0.000000001, true)),
+    CELLULAR_EDGE_THICK((s) -> NoisePreset.CELLULAR.create(s).scale(2).edgeDetect(0.000000001, true)),
     CELLULAR_HEIGHT(CellularHeightProvider::new),
     CLOVER(CloverProvider::new),
     FLAT(FlatProvider::new),
@@ -34,6 +38,12 @@ public enum NoisePreset
     SPATTER((s) -> new FractalFBMProvider(SimplexProvider::new, s, 4, 0.6, 2.75D)),
     THERMA((s) -> new SimplexProvider(s).octave(3, 0.5)
         .warp(LAVA.create(s + 1), 0.75, 3).scale(4)),
+    THERMA_EDGE((s) -> NoisePreset.THERMA.create(s).scale(0.1).exponent(10)
+            .edgeDetect(0.000002, true)),
+    LAVA_EDGE((s) -> NoisePreset.LAVA.create(s).scale(0.1).exponent(75)
+            .edgeDetect(0.000002, true)),
+
+
     ;
 
     private final Function<Long, NoisePlane> plane;
