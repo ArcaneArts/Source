@@ -12,7 +12,7 @@ public abstract class Interpolator implements NoisePlaneProvider {
     protected final NoisePlane input;
     protected final double scale;
     protected final double iscale;
-    
+
     public Interpolator(NoisePlane input, double scale)
     {
         this.input = input;
@@ -165,7 +165,7 @@ public abstract class Interpolator implements NoisePlaneProvider {
     public double normalize(double bmin, double bmax, double b) {
         return (b - bmin) / (bmax - bmin);
     }
-    
+
     public int getRadiusFactor(double coord)
     {
         if(scale > 1 && scale < 3) {return (int)coord >> 1;}
@@ -179,6 +179,10 @@ public abstract class Interpolator implements NoisePlaneProvider {
         if(scale > 511 && scale < 513) {return (int)coord >> 9;}
         if(scale > 1023 && scale < 1025) {return (int)coord >> 10;}
         return (int) Math.floor(coord * iscale);
+    }
+
+    public static double bigauss(double x, double y, double sigma) {
+        return  1.0f / (2.0f * Math.PI * sigma * sigma) * Math.exp(-(x * x + y * y) / (2.0f * sigma * sigma));
     }
 
     public static double lerp(double a, double b, double f) {

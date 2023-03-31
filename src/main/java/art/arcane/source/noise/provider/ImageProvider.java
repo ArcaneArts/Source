@@ -2,77 +2,21 @@ package art.arcane.source.noise.provider;
 
 import art.arcane.source.util.FloatCache;
 import art.arcane.source.util.MirroredFloatCache;
+import art.arcane.source.util.SourceIO;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-public class ImageProvider implements NoisePlaneProvider{
-    private final MirroredFloatCache image;
+public class ImageProvider implements NoisePlaneProvider {
+    private final FloatCache cache;
 
-    public ImageProvider(MirroredFloatCache image) {
-        this.image = image;
+    public ImageProvider(BufferedImage image, SourceIO.ImageChannel channel) {
+        this.cache = SourceIO.load(image, channel);
     }
 
-    public static ImageProvider grayscale(BufferedImage image)
-    {
-        MirroredFloatCache cache = new MirroredFloatCache(image.getWidth(), image.getHeight());
-
-        for(int x = 0; x < image.getWidth(); x++) {
-            for(int y = 0; y < image.getHeight(); y++) {
-                int rgb = image.getRGB(x, y);
-                int r = (rgb >> 16) & 0xFF;
-                int g = (rgb >> 8) & 0xFF;
-                int b = (rgb) & 0xFF;
-                double brightness = (r + g + b) / 3.0;
-                cache.set(x, y, (float) (brightness / 255.0));
-            }
-        }
-
-        return new ImageProvider(cache);
-    }
-
-    public static ImageProvider red(BufferedImage image)
-    {
-        MirroredFloatCache cache = new MirroredFloatCache(image.getWidth(), image.getHeight());
-
-        for(int x = 0; x < image.getWidth(); x++) {
-            for(int y = 0; y < image.getHeight(); y++) {
-                int rgb = image.getRGB(x, y);
-                int r = (rgb >> 16) & 0xFF;
-                cache.set(x, y, (float) (r / 255.0));
-            }
-        }
-
-        return new ImageProvider(cache);
-    }
-
-    public static ImageProvider green(BufferedImage image)
-    {
-        MirroredFloatCache cache = new MirroredFloatCache(image.getWidth(), image.getHeight());
-
-        for(int x = 0; x < image.getWidth(); x++) {
-            for(int y = 0; y < image.getHeight(); y++) {
-                int rgb = image.getRGB(x, y);
-                int g = (rgb >> 8) & 0xFF;
-                cache.set(x, y, (float) (g / 255.0));
-            }
-        }
-
-        return new ImageProvider(cache);
-    }
-
-    public static ImageProvider blue(BufferedImage image)
-    {
-        MirroredFloatCache cache = new MirroredFloatCache(image.getWidth(), image.getHeight());
-
-        for(int x = 0; x < image.getWidth(); x++) {
-            for(int y = 0; y < image.getHeight(); y++) {
-                int rgb = image.getRGB(x, y);
-                int b = (rgb) & 0xFF;
-                cache.set(x, y, (float) (b / 255.0));
-            }
-        }
-
-        return new ImageProvider(cache);
+    public ImageProvider(File image, SourceIO.ImageChannel channel) throws IOException {
+        this.cache = SourceIO.load(image, channel);
     }
 
     @Override
@@ -82,7 +26,7 @@ public class ImageProvider implements NoisePlaneProvider{
 
     @Override
     public double noise(double x, double y) {
-        return image.get((int)x, (int)y);
+        return cache.get((int)x, (int)y);
     }
 
     @Override

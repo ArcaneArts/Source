@@ -7,8 +7,10 @@ import art.arcane.source.interpolator.StarcastInterpolator;
 import art.arcane.source.noise.NoiseTarget;
 import art.arcane.source.noise.provider.*;
 import art.arcane.source.util.NoisePreset;
+import art.arcane.source.util.SourceIO;
 import art.arcane.source.util.Weighted;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 public interface NoisePlane {
@@ -18,6 +20,18 @@ public interface NoisePlane {
 
     default NoisePlane slope(double radius) {
         return new Sloper(this, radius);
+    }
+
+    default NoisePlane gauss(double sigma) {
+        return new GaussBlur(this, sigma);
+    }
+
+    default NoisePlane posturize(int values) {
+        return new Posturizer(this, values);
+    }
+
+    default NoisePlane stretch(double min, double max) {
+        return new Stretcher(this, min, max);
     }
 
     default MaxProvider max(NoisePlane other) {
@@ -185,6 +199,10 @@ public interface NoisePlane {
         return array[i(x, y, 0, array.length-1)];
     }
 
+    /**
+     * Inverts the noise value such that a value of 0 becomes 1, 1 becomes 0, and values in between are inverted.
+     * @return The inverted noise plane.
+     */
     default InvertedProvider invert() {
         return new InvertedProvider(this);
     }
@@ -290,6 +308,11 @@ public interface NoisePlane {
 
     default NoisePlane edgeDetect(double percentChangeThreshold, boolean fast) {
         return new EdgeDetector(this, percentChangeThreshold, fast);
+    }
+
+    default NoisePlane contrast(double amount)
+    {
+        return new Contrastor(this, amount);
     }
 
     default NoisePlane scale(double scale) {

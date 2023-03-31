@@ -138,16 +138,22 @@ public class Visualizer  extends JPanel implements MouseWheelListener{
                 }
             }
 
+            double f;
+            double minF = Double.MAX_VALUE;
+            double maxF = Double.MIN_VALUE;
             for(int i = 0; i < img.getWidth(); i++) {
                 for(int j = 0; j < img.getHeight(); j++) {
-                    img.setRGB(i, j, getColorFor(cache.getValueOr((i/accuracy) + ox, (j/accuracy) + oz, 0)));
+                    f = cache.getValueOr((i/accuracy) + ox, (j/accuracy) + oz, 0);
+                    img.setRGB(i, j, getColorFor(f));
+                    minF = Math.min(minF, f);
+                    maxF = Math.max(maxF, f);
                 }
             }
 
             String dbg = "LFT: " + ((int)falft) + "ms ACC: " + (int)(accuracy * 100) + "%";
+            dbg += " \nMAX: " + maxF + " \nMIN: " + minF;
             gg.drawImage(img, 0, 0, getParent().getWidth(), getParent().getHeight(), (img, infoflags, x, y, width, height) -> true);
             gg.setColor(ultrafast ? Color.cyan : Color.red);
-            gg.scale(5, 5);
             gg.drawString(dbg, 5, 10);
         }
 
@@ -228,8 +234,16 @@ public class Visualizer  extends JPanel implements MouseWheelListener{
     }
 
     public int getColorFor(double nValue) {
-        if(true)
+        if(nValue > 1)
         {
+            return Color.RED.getRGB();
+        }
+
+        else if(nValue < 0) {
+            return Color.BLUE.getRGB();
+        }
+
+        if(true) {
             return Color.getHSBColor(0, 0, (float)nValue).getRGB();
         }
 

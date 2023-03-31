@@ -7,9 +7,9 @@ import lombok.Getter;
 
 @Data
 public class FloatCache implements NoiseTarget {
-    private final float[] cache;
-    private final int width;
-    private final int height;
+    protected final float[] cache;
+    protected final int width;
+    protected final int height;
 
     public FloatCache(int width, int height)
     {
