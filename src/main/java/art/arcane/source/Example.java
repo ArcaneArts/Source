@@ -8,7 +8,7 @@ public class Example {
     public static void main(String[] a) throws IOException {
 
         NoisePlane plane =
-            NoisePreset.SIMPLEX.create(1).scale(0.01);
+            NoisePreset.SIMPLEX.create(1);
             ;
 
         Visualizer.launch(plane);
