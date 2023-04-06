@@ -65,6 +65,41 @@ public class EdgeDetector extends SeededProvider {
 
     @Override
     public double noise(double x, double y, double z) {
+        double c = generator.noise(x, y);
+
+        if(Math.abs(c - generator.noise(x+1, y)) * diff > threshold) {
+            return getMaxOutput();
+        }
+        if(Math.abs(c - generator.noise(x, y+1)) * diff > threshold) {
+            return getMaxOutput();
+        }
+        if(!fast) {
+            if(Math.abs(c - generator.noise(x-1, y)) * diff > threshold) {
+                return getMaxOutput();
+            }
+            if(Math.abs(c - generator.noise(x, y-1)) * diff > threshold) {
+                return getMaxOutput();
+            }
+            if(Math.abs(c - generator.noise(x+1, y+1)) * diff > threshold) {
+                return getMaxOutput();
+            }
+            if(Math.abs(c - generator.noise(x-1, y+1)) * diff > threshold) {
+                return getMaxOutput();
+            }
+            if(Math.abs(c - generator.noise(x+1, y-1)) * diff > threshold) {
+                return getMaxOutput();
+            }
+            if(Math.abs(c - generator.noise(x-1, y-1)) * diff > threshold) {
+                return getMaxOutput();
+            }
+        }
+
+
         return getMinOutput();
+    }
+
+    @Override
+    public boolean supports3D() {
+        return false;
     }
 }

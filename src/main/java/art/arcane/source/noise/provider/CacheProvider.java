@@ -42,4 +42,14 @@ public class CacheProvider implements NoisePlane {
     public double noise(double x, double y, double z) {
         return noise(x, y == 0 ? z : y);
     }
+
+    @Override
+    public boolean supports3D() {
+        return false;
+    }
+
+    @Override
+    public boolean supports1D() {
+        return false;
+    }
 }

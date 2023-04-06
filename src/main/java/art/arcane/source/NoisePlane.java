@@ -14,6 +14,21 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 public interface NoisePlane {
+    default boolean supports1D()
+    {
+        return true;
+    }
+
+    default boolean supports2D()
+    {
+        return true;
+    }
+
+    default boolean supports3D()
+    {
+        return true;
+    }
+
     default void fill(NoiseTarget target) {
         target.collect(this);
     }
