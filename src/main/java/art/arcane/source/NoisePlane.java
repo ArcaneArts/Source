@@ -1,32 +1,87 @@
 package art.arcane.source;
 
+import art.arcane.curse.Curse;
 import art.arcane.source.interpolator.CubicInterpolator;
 import art.arcane.source.interpolator.HermiteInterpolator;
 import art.arcane.source.interpolator.LinearInterpolator;
 import art.arcane.source.interpolator.StarcastInterpolator;
 import art.arcane.source.noise.NoiseTarget;
 import art.arcane.source.noise.provider.*;
+import art.arcane.source.util.BenchmarkedValue;
 import art.arcane.source.util.NoisePreset;
 import art.arcane.source.util.SourceIO;
 import art.arcane.source.util.Weighted;
 
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.List;
 
 public interface NoisePlane {
-    default boolean supports1D()
-    {
+    default boolean supports1D() {
         return true;
     }
 
-    default boolean supports2D()
-    {
+    default boolean supports2D() {
         return true;
     }
 
-    default boolean supports3D()
-    {
+    default boolean supports3D() {
         return true;
+    }
+
+    default NoisePlane getParent() {
+        for(Field i : getClass().getDeclaredFields()) {
+            if(NoisePlane.class.isAssignableFrom(i.getType())) {
+                try {
+                    i.setAccessible(true);
+                    return (NoisePlane) i.get(this);
+                } catch(IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    default List<BenchmarkedValue<NoisePlane>> benchmarkPipeline2D(long maxMs) {
+        List<BenchmarkedValue<NoisePlane>> b = new ArrayList<>();
+        List<NoisePlane> p = getPipeline();
+        long msb = maxMs / p.size();
+
+        for(NoisePlane i : p) {
+            b.add(new BenchmarkedValue<>(i.benchmarkScore2D(msb), i));
+        }
+
+        return b;
+    }
+
+    default void benchmarkPipeline2DPrint(long maxMs) {
+        List<BenchmarkedValue<NoisePlane>> b = benchmarkPipeline2D(maxMs);
+        long totalScore = b.stream().mapToLong(BenchmarkedValue::getScore).sum();
+
+        for(BenchmarkedValue<NoisePlane> i : b) {
+            long score = i.getScore();
+            System.out.println(i.getObject().getClass().getSimpleName() + " " + score + " (" + (score * 100 / totalScore) + "%)");
+        }
+    }
+
+    default List<NoisePlane> getPipeline() {
+        List<NoisePlane> p = new ArrayList<>();
+        NoisePlane buf = this;
+        while(buf != null) {
+            System.out.println("L " + buf.getClass().getSimpleName());
+            p.add(buf);
+            buf = buf.getParent();
+        }
+
+        return p;
+    }
+
+    default NoisePlane clip(double min, double max) {
+        return new Clipper(this, min, max);
     }
 
     default void fill(NoiseTarget target) {
@@ -352,7 +407,7 @@ public interface NoisePlane {
         return -1;
     }
 
-    default void benchmark(String name, double ms)
+    default void benchmarkPrint(String name, double ms)
     {
         double msb = ms/3;
         long t = System.currentTimeMillis();
@@ -363,8 +418,8 @@ public interface NoisePlane {
 
         while(System.currentTimeMillis() - t < msb)
         {
-           noise(n++);
-           d1++;
+            noise(n++);
+            d1++;
         }
 
         t = System.currentTimeMillis();
@@ -384,5 +439,46 @@ public interface NoisePlane {
         }
 
         System.out.println(name + ": " + "1D: " + Math.round(d1/msb) + "/ms " + "2D: " + Math.round(d2/msb) + "/ms " + "3D: " + Math.round(d3/msb) + "/ms");
+    }
+
+    default long benchmarkScore3D(double ms) {
+        long t = System.currentTimeMillis();
+        long d3 = 0;
+        long n = 0;
+
+        while(System.currentTimeMillis() - t < ms)
+        {
+            noise(n++, n++, n++);
+            d3++;
+        }
+
+        return d3;
+    }
+
+    default long benchmarkScore2D(double ms) {
+        long t = System.currentTimeMillis();
+        long d2 = 0;
+        long n = 0;
+
+        while(System.currentTimeMillis() - t < ms)
+        {
+            noise(n++, n++);
+            d2++;
+        }
+
+        return d2;
+    }
+
+    default long benchmarkScore1D(double ms) {
+        long t = System.currentTimeMillis();
+        long d1 = 0;
+        long n = 0;
+
+        while(System.currentTimeMillis() - t < ms) {
+            noise(n++);
+            d1++;
+        }
+
+        return d1;
     }
 }

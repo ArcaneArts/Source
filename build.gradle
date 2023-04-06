@@ -25,6 +25,7 @@ dependencies {
     implementation 'org.sejda.imageio:webp-imageio:0.1.6'
     implementation 'art.arcane:MultiBurst:22.9.2'
     implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'art.arcane:Curse:23.4.3'
     implementation 'com.googlecode.concurrentlinkedhashmap:concurrentlinkedhashmap-lru:1.4.2'
 }
 
