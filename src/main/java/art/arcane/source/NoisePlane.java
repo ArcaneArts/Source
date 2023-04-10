@@ -31,6 +31,14 @@ public interface NoisePlane {
         return true;
     }
 
+    default NoisePlane compile(int size) {
+        return compile(size, size);
+    }
+
+    default NoisePlane compile(int width, int height) {
+        return new CompiledProvider(this, width, height);
+    }
+
     default NoisePlane getParent() {
         for(Field i : getClass().getDeclaredFields()) {
             if(NoisePlane.class.isAssignableFrom(i.getType())) {
@@ -393,6 +401,15 @@ public interface NoisePlane {
 
         return new ScaledProvider(this, scale);
     }
+
+    default NoisePlane warpedEdge(NoisePlane warp, int size, double multiplier, double percent) {
+        return warpedEdge(warp, size, size, multiplier, percent);
+    }
+
+    default NoisePlane warpedEdge(NoisePlane warp, int width, int height, double multiplier, double percent) {
+        return new WarpedEdgeProvider(this, warp, multiplier, width, height, percent);
+    }
+
     default NoisePlane warp(NoisePlane warp, double scale, double multiplier){
         return new WarpedProvider(this, warp, scale, multiplier);
     }

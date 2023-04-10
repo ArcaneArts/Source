@@ -3,16 +3,17 @@ package art.arcane.source;
 import art.arcane.source.noise.provider.ImageProvider;
 import art.arcane.source.ui.Visualizer;
 import art.arcane.source.util.NoisePreset;
+import art.arcane.source.util.SourceIO;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 public class Example {
     public static void main(String[] a) throws IOException {
-        NoisePlane plane =
-            NoisePreset.CELLULAR_EDGE_HAIRTHIN.create(0);
-        ;
+        NoisePlane plane = NoisePreset.NATURAL_FAST.create(10);
 
-        plane.benchmarkPipeline2DPrint(1250);
+        Source.cacheLoader.compile();
 
         Visualizer.launch(plane);
     }

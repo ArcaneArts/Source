@@ -38,4 +38,9 @@ public class ImageProvider implements NoisePlaneProvider {
     public long getSeed() {
         return 0;
     }
+
+    @Override
+    public double getMinOutput() {
+        return 0;
+    }
 }

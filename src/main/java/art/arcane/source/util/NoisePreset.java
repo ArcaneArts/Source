@@ -32,6 +32,10 @@ public enum NoisePreset
         NATURAL((s) -> new SimplexProvider(s).octave(2, 0.5)
         .warp(new PerlinProvider(s+2), 0.99, 0.55)
         .warp(new PerlinProvider(s+1), 8.7, 0.07)),
+    NATURAL_FAST((s) -> NoisePreset.NATURAL.create(s)
+            .scale(0.25)
+            .compile(1024)
+            .warpedEdge(NoisePreset.PERLIN.create((s * 18) + 7).scale(0.1), 1024, 89, 0.333)),
     WETLAND((s) -> new FractalBillowProvider(PerlinProvider::new, s, 1, 0, 2D)),
     LAVA((s) -> new FractalBillowProvider(PerlinProvider::new, s, 3, 0.5, 2D)),
     SPATTER((s) -> new FractalFBMProvider(SimplexProvider::new, s, 4, 0.6, 2.75D)),
